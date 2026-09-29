@@ -1,0 +1,3 @@
+# Credenciales locales (nunca subir el .env real)
+.env
+vendor/
