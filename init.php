@@ -11,7 +11,7 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 /**
  * Bases creadas con la versión anterior usaban fotos de loremflickr (poco confiables).
- * Se reemplazan por las ilustraciones locales de public/img/. Solo toca esas URLs.
+ * Se reemplazan por las fotos locales de public/img/ (y los dibujos .svg por las fotos .jpg).
  */
 function actualizarImagenes(mysqli $db): void {
     $imagenes = [
@@ -30,11 +30,13 @@ function actualizarImagenes(mysqli $db): void {
     'Caño PVC 110mm x4m' => 'cano',
     'Membrana asfáltica' => 'membrana',
     ];
-    $stmt = $db->prepare("UPDATE productos SET imagen_url = ? WHERE nombre = ? AND imagen_url LIKE '%loremflickr%'");
+    // Solo reemplaza imágenes viejas (loremflickr o el dibujo .svg); lo cargado desde el admin no se toca
+    $stmt = $db->prepare("UPDATE productos SET imagen_url = ? WHERE nombre = ? AND (imagen_url LIKE '%loremflickr%' OR imagen_url = ?)");
     $total = 0;
     foreach ($imagenes as $nombre => $img) {
-        $url = "public/img/{$img}.svg";
-        $stmt->bind_param("ss", $url, $nombre);
+        $url = "public/img/{$img}.jpg"; // fotos reales
+        $dibujoViejo = "public/img/{$img}.svg";
+        $stmt->bind_param("sss", $url, $nombre, $dibujoViejo);
         $stmt->execute();
         $total += $stmt->affected_rows;
     }

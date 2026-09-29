@@ -95,17 +95,17 @@ INSERT INTO `usuarios` (`username`, `password_hash`, `nombre`) VALUES
 -- Mayorista: alrededor de 12-15% menos que el minorista.
 -- --------------------------------------------------------
 INSERT INTO `productos` (`nombre`, `descripcion`, `precio`, `precio_mayorista`, `categoria`, `unidad`, `imagen_url`, `stock`, `destacado`) VALUES
-('Cemento Portland', 'Bolsa de cemento Portland de uso general.', 9800.00, 8500.00, 'Cemento y Áridos', 'bolsa 50kg', 'public/img/cemento.svg', 100, 1),
-('Arena gruesa', 'Arena gruesa para mezclas y contrapisos.', 45000.00, 39000.00, 'Cemento y Áridos', 'm³', 'public/img/arena.svg', 50, 0),
-('Cal hidratada', 'Cal hidratada para morteros y revoques.', 7900.00, 6800.00, 'Cemento y Áridos', 'bolsa 25kg', 'public/img/cal.svg', 80, 0),
-('Hierro Ø8mm x 12m', 'Varilla de hierro para hormigón armado.', 12300.00, 10900.00, 'Hierros y Perfiles', 'varilla', 'public/img/hierro.svg', 60, 1),
-('Hierro Ø10mm x 12m', 'Varilla de hierro para hormigón armado.', 19000.00, 16800.00, 'Hierros y Perfiles', 'varilla', 'public/img/hierro.svg', 60, 0),
-('Malla soldada 15x15', 'Panel de malla soldada para losas.', 72700.00, 64000.00, 'Hierros y Perfiles', 'panel 6x2.15m', 'public/img/malla.svg', 25, 0),
-('Ladrillo hueco 8x18x33', 'Ladrillo hueco cerámico para muros.', 760.00, 620.00, 'Ladrillos y Bloques', 'unidad', 'public/img/ladrillo.svg', 2000, 1),
-('Bloque de hormigón 20x20x40', 'Bloque de hormigón para mampostería.', 1300.00, 1100.00, 'Ladrillos y Bloques', 'unidad', 'public/img/bloque.svg', 800, 0),
-('Látex interior premium', 'Pintura látex interior de alta cobertura.', 46000.00, 40000.00, 'Pinturas', 'balde 20L', 'public/img/latex.svg', 30, 1),
-('Antióxido convertidor', 'Convertidor de óxido para metales.', 24000.00, 21000.00, 'Pinturas', 'lata 1L', 'public/img/antioxido.svg', 45, 0),
-('Tornillo autoperforante', 'Caja de tornillos autoperforantes.', 9200.00, 8000.00, 'Tornillería y Fijaciones', 'caja x100', 'public/img/tornillo.svg', 90, 0),
-('Taco fischer S8', 'Caja de tacos de nylon fischer S8.', 5950.00, 5100.00, 'Tornillería y Fijaciones', 'caja x100', 'public/img/taco.svg', 90, 0),
-('Caño PVC 110mm x4m', 'Caño de PVC para desagües.', 25400.00, 22000.00, 'Caños y Membranas', 'unidad', 'public/img/cano.svg', 40, 1),
-('Membrana asfáltica', 'Rollo de membrana asfáltica para techos.', 74500.00, 65000.00, 'Caños y Membranas', 'rollo 10m²', 'public/img/membrana.svg', 20, 0);
+('Cemento Portland', 'Bolsa de cemento Portland de uso general.', 9800.00, 8500.00, 'Cemento y Áridos', 'bolsa 50kg', 'public/img/cemento.jpg', 100, 1),
+('Arena gruesa', 'Arena gruesa para mezclas y contrapisos.', 45000.00, 39000.00, 'Cemento y Áridos', 'm³', 'public/img/arena.jpg', 50, 0),
+('Cal hidratada', 'Cal hidratada para morteros y revoques.', 7900.00, 6800.00, 'Cemento y Áridos', 'bolsa 25kg', 'public/img/cal.jpg', 80, 0),
+('Hierro Ø8mm x 12m', 'Varilla de hierro para hormigón armado.', 12300.00, 10900.00, 'Hierros y Perfiles', 'varilla', 'public/img/hierro.jpg', 60, 1),
+('Hierro Ø10mm x 12m', 'Varilla de hierro para hormigón armado.', 19000.00, 16800.00, 'Hierros y Perfiles', 'varilla', 'public/img/hierro.jpg', 60, 0),
+('Malla soldada 15x15', 'Panel de malla soldada para losas.', 72700.00, 64000.00, 'Hierros y Perfiles', 'panel 6x2.15m', 'public/img/malla.jpg', 25, 0),
+('Ladrillo hueco 8x18x33', 'Ladrillo hueco cerámico para muros.', 760.00, 620.00, 'Ladrillos y Bloques', 'unidad', 'public/img/ladrillo.jpg', 2000, 1),
+('Bloque de hormigón 20x20x40', 'Bloque de hormigón para mampostería.', 1300.00, 1100.00, 'Ladrillos y Bloques', 'unidad', 'public/img/bloque.jpg', 800, 0),
+('Látex interior premium', 'Pintura látex interior de alta cobertura.', 46000.00, 40000.00, 'Pinturas', 'balde 20L', 'public/img/latex.jpg', 30, 1),
+('Antióxido convertidor', 'Convertidor de óxido para metales.', 24000.00, 21000.00, 'Pinturas', 'lata 1L', 'public/img/antioxido.jpg', 45, 0),
+('Tornillo autoperforante', 'Caja de tornillos autoperforantes.', 9200.00, 8000.00, 'Tornillería y Fijaciones', 'caja x100', 'public/img/tornillo.jpg', 90, 0),
+('Taco fischer S8', 'Caja de tacos de nylon fischer S8.', 5950.00, 5100.00, 'Tornillería y Fijaciones', 'caja x100', 'public/img/taco.jpg', 90, 0),
+('Caño PVC 110mm x4m', 'Caño de PVC para desagües.', 25400.00, 22000.00, 'Caños y Membranas', 'unidad', 'public/img/cano.jpg', 40, 1),
+('Membrana asfáltica', 'Rollo de membrana asfáltica para techos.', 74500.00, 65000.00, 'Caños y Membranas', 'rollo 10m²', 'public/img/membrana.jpg', 20, 0);
