@@ -11,7 +11,7 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 /**
  * Bases creadas con la versión anterior usaban fotos de loremflickr (poco confiables).
- * Se reemplazan por las ilustraciones locales de public/img/. Solo toca esas URLs.
+ * Se reemplazan por las fotos locales de public/img/ (y los dibujos .svg por las fotos .jpg).
  */
 function actualizarImagenes(mysqli $db): void {
     $imagenes = [
@@ -30,15 +30,49 @@ function actualizarImagenes(mysqli $db): void {
     'Caño PVC 110mm x4m' => 'cano',
     'Membrana asfáltica' => 'membrana',
     ];
-    $stmt = $db->prepare("UPDATE productos SET imagen_url = ? WHERE nombre = ? AND imagen_url LIKE '%loremflickr%'");
+    // Solo reemplaza imágenes viejas (loremflickr o el dibujo .svg); lo cargado desde el admin no se toca
+    $stmt = $db->prepare("UPDATE productos SET imagen_url = ? WHERE nombre = ? AND (imagen_url LIKE '%loremflickr%' OR imagen_url = ?)");
     $total = 0;
     foreach ($imagenes as $nombre => $img) {
-        $url = "public/img/{$img}.svg";
-        $stmt->bind_param("ss", $url, $nombre);
+        $url = "public/img/{$img}.jpg"; // fotos reales
+        $dibujoViejo = "public/img/{$img}.svg";
+        $stmt->bind_param("sss", $url, $nombre, $dibujoViejo);
         $stmt->execute();
         $total += $stmt->affected_rows;
     }
     if ($total > 0) echo "[init-db] Imágenes actualizadas: {$total} productos.\n";
+}
+
+/**
+ * Actualiza los precios del catálogo original a valores de mercado (septiembre 2026).
+ * Solo cambia productos que todavía tienen el precio viejo, para no pisar lo editado en el admin.
+ */
+function actualizarPrecios(mysqli $db): void {
+    $precios = [
+        // [nombre, minorista viejo, mayorista viejo, minorista nuevo, mayorista nuevo, unidad nueva]
+        ['Cemento Portland', 9800, 8200, 9800, 8500, null],
+        ['Arena gruesa', 45000, 38000, 45000, 39000, null],
+        ['Cal hidratada', 4200, 3500, 7900, 6800, null],
+        ['Hierro Ø8mm x 12m', 12500, 10800, 12300, 10900, null],
+        ['Hierro Ø10mm x 12m', 18200, 15600, 19000, 16800, null],
+        ['Malla soldada 15x15', 31000, 27000, 72700, 64000, 'panel 6x2.15m'],
+        ['Ladrillo hueco 8x18x33', 350, 280, 760, 620, null],
+        ['Bloque de hormigón 20x20x40', 890, 740, 1300, 1100, null],
+        ['Látex interior premium', 68000, 57000, 46000, 40000, null],
+        ['Antióxido convertidor', 8900, 7400, 24000, 21000, null],
+        ['Tornillo autoperforante', 4200, 3400, 9200, 8000, null],
+        ['Taco fischer S8', 3100, 2500, 5950, 5100, 'caja x100'],
+        ['Caño PVC 110mm x4m', 15800, 13200, 25400, 22000, null],
+        ['Membrana asfáltica', 42000, 36500, 74500, 65000, null],
+    ];
+    $stmt = $db->prepare("UPDATE productos SET precio = ?, precio_mayorista = ?, unidad = COALESCE(?, unidad) WHERE nombre = ? AND precio = ? AND precio_mayorista = ?");
+    $total = 0;
+    foreach ($precios as [$nombre, $viejoMin, $viejoMay, $nuevoMin, $nuevoMay, $unidad]) {
+        $stmt->bind_param("ddssdd", $nuevoMin, $nuevoMay, $unidad, $nombre, $viejoMin, $viejoMay);
+        $stmt->execute();
+        $total += $stmt->affected_rows;
+    }
+    if ($total > 0) echo "[init-db] Precios actualizados: {$total} productos.\n";
 }
 
 $db = null;
@@ -61,6 +95,7 @@ $existe = $db->query("SHOW TABLES LIKE 'productos'")->num_rows > 0;
 if ($existe) {
     echo "[init-db] La base ya tiene tablas. No se importa nada.\n";
     actualizarImagenes($db);
+    actualizarPrecios($db);
     exit(0);
 }
 

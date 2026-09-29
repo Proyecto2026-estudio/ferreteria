@@ -3,7 +3,7 @@ import { Cart, isValidCuit } from './cart.js';
 
 const money = n => `$ ${Number(n).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const IMG_FALLBACK = 'public/img/cemento.svg';
+const IMG_FALLBACK = 'public/img/cemento.jpg';
 
 document.addEventListener('DOMContentLoaded', () => {
   let currentCategory = 'todos';

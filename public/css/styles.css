@@ -1223,3 +1223,8 @@ body {
   transition: var(--transition-fast);
 }
 .admin-link:hover { color: var(--text-main); border-color: var(--primary); }
+
+/* Fotos de producto completas (sin recortar) sobre fondo blanco */
+.product-image-container { background: #ffffff; }
+.product-image { object-fit: contain; padding: 0.5rem; }
+.cart-item-img { object-fit: contain; background: #ffffff; }

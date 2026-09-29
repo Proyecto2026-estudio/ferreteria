@@ -48,7 +48,7 @@ try {
     }
 
     if (empty($imagenUrl)) {
-        $imagenUrl = 'public/img/cemento.svg';
+        $imagenUrl = 'public/img/cemento.jpg';
     }
 
     $db = Database::getConnection();
