@@ -3,7 +3,7 @@ import { Cart, isValidCuit } from './cart.js';
 
 const money = n => `$ ${Number(n).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const IMG_FALLBACK = 'https://loremflickr.com/500/400/hardware';
+const IMG_FALLBACK = 'public/img/cemento.svg';
 
 document.addEventListener('DOMContentLoaded', () => {
   let currentCategory = 'todos';
@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const cuitFeedback = document.getElementById('cuit-feedback');
   const razonSocialInput = document.getElementById('razon-social-input');
   const btnCheckout = document.getElementById('btn-checkout-mp');
+  const btnDemo = document.getElementById('btn-checkout-demo'); // solo existe con credenciales de prueba
   const btnClearCart = document.getElementById('btn-clear-cart');
   const toastContainer = document.getElementById('toast-container');
 
@@ -189,6 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
       cartBreakdown.innerHTML = '';
       cartTotalPrice.textContent = money(0);
       btnCheckout.disabled = true;
+      if (btnDemo) btnDemo.disabled = true;
       btnClearCart.style.display = 'none';
       return;
     }
@@ -269,6 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateCheckoutState() {
     const hasItems = Cart.getItems().length > 0;
     btnCheckout.disabled = !hasItems || !validateInvoice();
+    if (btnDemo) btnDemo.disabled = btnCheckout.disabled;
   }
 
   invoiceRadios.forEach(r => r.addEventListener('change', () => {
@@ -298,8 +301,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (confirm('¿Vaciar todos los materiales de la cotización?')) Cart.clearCart();
   });
 
-  // ================= Checkout Mercado Pago =================
-  btnCheckout.addEventListener('click', async () => {
+  // ================= Checkout (Mercado Pago o demo) =================
+  async function checkout(demo, button) {
     const items = Cart.getItems();
     if (items.length === 0) return;
 
@@ -310,25 +313,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     btnCheckout.disabled = true;
-    const originalText = btnCheckout.innerHTML;
-    btnCheckout.innerHTML = `<div class="spinner"></div><span>Generando Pago...</span>`;
+    if (btnDemo) btnDemo.disabled = true;
+    const originalText = button.innerHTML;
+    button.innerHTML = `<div class="spinner"></div><span>${demo ? 'Procesando pago demo...' : 'Generando Pago...'}</span>`;
 
     try {
       const response = await API.createCheckoutPreference(items, {
         mode: Cart.getMode(),
         invoice_type: invoiceType,
         cuit: invoiceType === 'A' ? cuitInput.value : '',
-        razon_social: invoiceType === 'A' ? razonSocialInput.value.trim() : ''
+        razon_social: invoiceType === 'A' ? razonSocialInput.value.trim() : '',
+        demo
       });
-      showToast('¡Redirigiendo a Mercado Pago!', 'success');
+      if (response.demo) {
+        Cart.clearCart();
+        showToast('¡Pago de demostración aprobado!', 'success');
+      } else {
+        showToast('¡Redirigiendo a Mercado Pago!', 'success');
+      }
       const redirectUrl = response.init_point || response.sandbox_init_point;
       setTimeout(() => { window.location.href = redirectUrl; }, 800);
     } catch (error) {
       showToast(error.message || 'Error al conectar con la pasarela de pago.', 'danger');
-      btnCheckout.innerHTML = originalText;
+      button.innerHTML = originalText;
       updateCheckoutState();
     }
-  });
+  }
+
+  btnCheckout.addEventListener('click', () => checkout(false, btnCheckout));
+  if (btnDemo) btnDemo.addEventListener('click', () => checkout(true, btnDemo));
 
   // ================= Filtros =================
   categoryBtns.forEach(btn => {

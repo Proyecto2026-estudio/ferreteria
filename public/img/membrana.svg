@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" role="img" aria-label="Rollo de membrana asfáltica">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#334155"/><stop offset="1" stop-color="#0f172a"/></linearGradient>
+<radialGradient id="sh" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#000" stop-opacity=".35"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient></defs>
+<rect width="500" height="400" fill="url(#bg)"/>
+<ellipse cx="250" cy="335" rx="170" ry="22" fill="url(#sh)"/>
+
+<rect x="120" y="130" width="230" height="190" fill="#27272a"/>
+<ellipse cx="350" cy="225" rx="38" ry="95" fill="#3f3f46" stroke="#18181b" stroke-width="4"/>
+<ellipse cx="350" cy="225" rx="22" ry="60" fill="#27272a"/><ellipse cx="350" cy="225" rx="9" ry="24" fill="#a1a1aa"/>
+<ellipse cx="120" cy="225" rx="38" ry="95" fill="#3f3f46"/>
+<path d="M120 320 L60 345 L360 345 L350 320 Z" fill="#a1a1aa"/>
+<rect x="160" y="200" width="150" height="50" fill="#f97316"/><text x="235" y="232" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="800" fill="#fff" text-anchor="middle">MEMBRANA 10 m²</text>
+</svg>

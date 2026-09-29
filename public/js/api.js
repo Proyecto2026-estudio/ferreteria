@@ -51,7 +51,8 @@ export const API = {
           mode: opciones.mode || 'retail',
           invoice_type: opciones.invoice_type || 'B',
           cuit: opciones.cuit || '',
-          razon_social: opciones.razon_social || ''
+          razon_social: opciones.razon_social || '',
+          demo: !!opciones.demo
         })
       });
 

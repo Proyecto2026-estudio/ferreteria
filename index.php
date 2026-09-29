@@ -34,6 +34,9 @@ require_once __DIR__ . '/env.php';
         <input type="text" id="search-input" class="search-input" placeholder="Buscar cemento, hierro, pintura...">
       </div>
 
+      <!-- Acceso al panel de administración -->
+      <a href="admin/login.php" class="admin-link" title="Panel de administración">⚙️ Admin</a>
+
       <!-- Botón de Carrito con Contador Dinámico -->
       <button id="cart-trigger" class="cart-trigger" aria-label="Abrir Carrito">
         <span>🧾 Mi Cotización</span>
@@ -127,6 +130,13 @@ require_once __DIR__ . '/env.php';
         </svg>
         <span>Pagar con Mercado Pago</span>
       </button>
+
+      <?php if (DEMO_PAYMENTS): ?>
+      <!-- Pago de demostración: aprueba la orden sin cobrar (solo con credenciales TEST) -->
+      <button id="btn-checkout-demo" class="btn-checkout-demo" disabled>
+        <span>🧪 Pagar en modo demo (sin cobrar)</span>
+      </button>
+      <?php endif; ?>
 
       <button id="btn-clear-cart" class="btn-clear-cart">
         Vaciar Cotización

@@ -4,6 +4,7 @@ require_once __DIR__ . '/../env.php';
 $paymentId = $_GET['payment_id'] ?? $_GET['collection_id'] ?? 'N/A';
 $status = $_GET['status'] ?? $_GET['collection_status'] ?? 'approved';
 $externalRef = $_GET['external_reference'] ?? 'N/A';
+$isDemo = !empty($_GET['demo']);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -22,13 +23,17 @@ $externalRef = $_GET['external_reference'] ?? 'N/A';
     <div class="status-icon success">✓</div>
     <h1 class="status-title text-success">¡Pago Confirmado!</h1>
     <p class="status-desc">
+      <?php if ($isDemo): ?>
+      Pago de <strong>demostración</strong> aprobado. No se cobró dinero real.<br>
+      <?php else: ?>
       Tu compra ha sido procesada correctamente mediante Mercado Pago.<br>
+      <?php endif; ?>
       ¡Gracias por comprar en Ferretería Equipo 8!
     </p>
 
     <div class="status-detail-box">
       <p class="mb-2"><strong class="text-main">Referencia de Orden:</strong> <span class="text-highlight"><?php echo htmlspecialchars($externalRef); ?></span></p>
-      <p class="mb-2"><strong class="text-main">ID de Pago Mercado Pago:</strong> <?php echo htmlspecialchars($paymentId); ?></p>
+      <p class="mb-2"><strong class="text-main"><?php echo $isDemo ? 'ID de Pago (demo)' : 'ID de Pago Mercado Pago'; ?>:</strong> <?php echo htmlspecialchars($paymentId); ?></p>
       <p><strong class="text-main">Estado:</strong> <span class="text-success font-bold">Aprobado (Approved)</span></p>
     </div>
 

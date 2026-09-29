@@ -180,7 +180,7 @@ $adminUser = $_SESSION['admin_user'] ?? ['nombre' => 'Administrador'];
 
           <div class="form-group full-width">
             <label class="form-label" for="prod-imagen">URL de la Imagen</label>
-            <input type="url" id="prod-imagen" class="form-input" placeholder="https://images.unsplash.com/...">
+            <input type="text" id="prod-imagen" class="form-input" placeholder="public/img/cemento.svg o https://...">
           </div>
 
           <div class="form-group full-width">
@@ -238,7 +238,7 @@ $adminUser = $_SESSION['admin_user'] ?? ['nombre' => 'Administrador'];
 
       tbody.innerHTML = productsList.map(prod => `
         <tr>
-          <td><img src="${prod.imagen_url}" alt="${prod.nombre}" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover;"></td>
+          <td><img src="${/^(https?:)?\/\//.test(prod.imagen_url) || prod.imagen_url.startsWith('/') ? prod.imagen_url : '../' + prod.imagen_url}" alt="${prod.nombre}" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover;"></td>
           <td><strong>${prod.nombre}</strong><br><span style="font-size: 0.75rem; color: var(--text-muted);">${prod.unidad}</span></td>
           <td><span style="text-transform: uppercase; font-size: 0.75rem; color: var(--primary); font-weight:700;">${prod.categoria}</span></td>
           <td><strong style="color: #38bdf8;">$ ${prod.precio.toLocaleString('es-AR', {minimumFractionDigits: 2})}</strong></td>

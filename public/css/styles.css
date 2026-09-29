@@ -1190,3 +1190,36 @@ body {
   .price-mode-toggle { width: 100%; }
   .invoice-options { grid-template-columns: 1fr; }
 }
+
+/* Botón de pago de demostración (solo con credenciales de prueba) */
+.btn-checkout-demo {
+  background: transparent;
+  color: var(--wholesale);
+  border: 1px dashed var(--wholesale);
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: var(--transition-fast);
+}
+.btn-checkout-demo:hover:not(:disabled) { background: rgba(251, 191, 36, 0.12); }
+.btn-checkout-demo:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* Acceso al panel admin desde la tienda */
+.admin-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  white-space: nowrap;
+  transition: var(--transition-fast);
+}
+.admin-link:hover { color: var(--text-main); border-color: var(--primary); }

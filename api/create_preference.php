@@ -157,9 +157,45 @@ try {
         $stmtItem->execute();
     }
 
+    // 3. MODO DEMO: se aprueba la orden sin pasar por Mercado Pago (no se cobra nada)
+    if (!empty($data['demo'])) {
+        if (!DEMO_PAYMENTS) {
+            throw new Exception('El pago de demostración está deshabilitado en este servidor.');
+        }
+        $demoPaymentId = 'DEMO-' . strtoupper(bin2hex(random_bytes(4)));
+        $stmtApprove = $db->prepare("UPDATE ordenes SET estado = 'approved', mp_payment_id = ? WHERE id = ?");
+        $stmtApprove->bind_param("si", $demoPaymentId, $orderId);
+        $stmtApprove->execute();
+
+        // Igual que el webhook: al aprobarse la orden se descuenta el stock
+        $stmtStock = $db->prepare("UPDATE productos SET stock = GREATEST(0, stock - ?) WHERE id = ?");
+        foreach ($orderItems as $oItem) {
+            $stmtStock->bind_param("ii", $oItem['cantidad'], $oItem['producto_id']);
+            $stmtStock->execute();
+        }
+        $db->commit();
+
+        $query = http_build_query([
+            'status' => 'approved',
+            'payment_id' => $demoPaymentId,
+            'external_reference' => $externalReference,
+            'demo' => 1
+        ]);
+        echo json_encode([
+            'status' => 'success',
+            'demo' => true,
+            'order_id' => $orderId,
+            'external_reference' => $externalReference,
+            'monto_total' => $montoTotal,
+            'iva_monto' => $ivaMonto,
+            'init_point' => 'public/success.php?' . $query
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
     $db->commit();
 
-    // 3. Crear Preferencia de Pago usando la API REST de Mercado Pago
+    // 4. Crear Preferencia de Pago usando la API REST de Mercado Pago
     $baseUrl = rtrim(trim(BASE_URL), '/');
     if (!preg_match('/^https?:\/\//i', $baseUrl)) {
         $baseUrl = 'http://' . $baseUrl;

@@ -48,7 +48,7 @@ try {
     }
 
     if (empty($imagenUrl)) {
-        $imagenUrl = 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=500&q=80';
+        $imagenUrl = 'public/img/cemento.svg';
     }
 
     $db = Database::getConnection();

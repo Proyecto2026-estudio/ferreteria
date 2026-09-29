@@ -27,6 +27,9 @@ define('DB_PASS', getEnvVal('DB_PASS', getEnvVal('MYSQLPASSWORD', '')));
 // Mercado Pago Credentials (credenciales de PRUEBA — Equipo 8, Ferretería)
 define('MP_ACCESS_TOKEN', getEnvVal('MP_ACCESS_TOKEN', 'TEST-970333950949076-081815-5cc9bd5ca9af7fa2858c687052fa3f69-2177710951'));
 define('MP_PUBLIC_KEY', getEnvVal('MP_PUBLIC_KEY', 'TEST-1601638d-e62e-4eb6-9008-7239992d8df8'));
+// Modo demo: permite "pagar" sin Mercado Pago para presentaciones.
+// Solo se habilita con credenciales de PRUEBA (TEST-...) o si DEMO_PAYMENTS=1.
+define('DEMO_PAYMENTS', getEnvVal('DEMO_PAYMENTS', str_starts_with(MP_ACCESS_TOKEN, 'TEST-') ? '1' : '0') === '1');
 // URL Base del proyecto en XAMPP (sanitizada sin comillas ni barras al final)
 $rawBaseUrl = getEnvVal('BASE_URL');
 // En Railway, si no se definió BASE_URL, se usa el dominio público que asigna Railway (siempre HTTPS)
